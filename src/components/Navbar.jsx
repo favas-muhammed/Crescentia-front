@@ -1,29 +1,33 @@
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { SessionContext } from '../contexts/SessionContext'
+// Navbar.jsx
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { SessionContext } from "../contexts/SessionContext";
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useContext(SessionContext)
+  const { isAuthenticated, logout } = useContext(SessionContext);
 
   return (
     <nav>
       <ul>
         <li>
-          <Link to='/'>Home</Link>
-        </li>
-        <li>
-          <Link to='/books'>All books</Link>
+          <Link to="/">Home</Link>
         </li>
         {isAuthenticated ? (
           <>
             <li>
-              <Link to='/books/new'>New book</Link>
+              <Link to="/posts">Posts</Link>
             </li>
             <li>
-              <Link to='/profile'>Profile</Link>
+              <Link to="/messages">Messages</Link>
             </li>
             <li>
-              <button type='button' onClick={logout}>
+              <Link to="/groups">Groups</Link>
+            </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <button type="button" onClick={logout}>
                 Logout
               </button>
             </li>
@@ -31,16 +35,17 @@ const Navbar = () => {
         ) : (
           <>
             <li>
-              <Link to='/signup'>Signup</Link>
+              <Link to="/signup">Signup</Link>
             </li>
+
             <li>
-              <Link to='/login'>Login</Link>
+              <Link to="/login">Login</Link>
             </li>
           </>
         )}
       </ul>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
