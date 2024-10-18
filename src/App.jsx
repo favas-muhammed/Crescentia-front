@@ -1,16 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import SignupPage from "./pages/SignupPage";
-import LoginPage from "./pages/LoginPage";
+import SignupPage from "./components/Auth/Signup";
+import LoginPage from "./components/Auth/Login";
 import Navbar from "./components/Navbar";
 import ProfilePage from "./pages/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
 import PostPage from "./pages/PostPage";
 import MessagesPage from "./pages/MessagesPage";
 import GroupsPage from "./pages/GroupsPage";
-import GroupDetailPage from "./pages/GroupDetailPage";
-import SearchPage from "./pages/SearchPage";
-
+import GroupDetailPage from "./components/Groups/GroupDetail";
+import SearchPage from "./components/SearchPage";
 function App() {
   return (
     <>
