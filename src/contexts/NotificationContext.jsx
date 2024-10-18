@@ -1,11 +1,11 @@
-// NotificationContext.jsx
-import React, { createContext, useState, useEffect } from "react";
-import { fetchWithToken } from "./SessionContext";
+import React, { createContext, useState, useEffect, useContext } from "react";
+import { SessionContext } from "./SessionContext";
 
 export const NotificationContext = createContext();
 
-const NotificationContextProvider = ({ children }) => {
+export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
+  const { fetchWithToken } = useContext(SessionContext);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -16,18 +16,15 @@ const NotificationContextProvider = ({ children }) => {
         console.error("Error fetching notifications:", error);
       }
     };
-
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 60000); // Fetch every minute
-
-    return () => clearInterval(interval);
-  }, []);
+    // Set up a timer to fetch notifications periodically
+    const timer = setInterval(fetchNotifications, 60000); // Fetch every minute
+    return () => clearInterval(timer);
+  }, [fetchWithToken]);
 
   const markAsRead = async (notificationId) => {
     try {
-      await fetchWithToken(`/api/notifications/${notificationId}`, "PUT", {
-        isRead: true,
-      });
+      await fetchWithToken(`/api/notifications/${notificationId}/read`, "PUT");
       setNotifications(notifications.filter((n) => n._id !== notificationId));
     } catch (error) {
       console.error("Error marking notification as read:", error);
@@ -40,5 +37,3 @@ const NotificationContextProvider = ({ children }) => {
     </NotificationContext.Provider>
   );
 };
-
-export default NotificationContextProvider;
