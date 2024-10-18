@@ -1,7 +1,7 @@
-// Navbar.jsx
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SessionContext } from "../contexts/SessionContext";
+import NotificationBell from "./NotificationBell";
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useContext(SessionContext);
@@ -27,6 +27,9 @@ const Navbar = () => {
               <Link to="/profile">Profile</Link>
             </li>
             <li>
+              <NotificationBell />
+            </li>
+            <li>
               <button type="button" onClick={logout}>
                 Logout
               </button>
@@ -37,7 +40,6 @@ const Navbar = () => {
             <li>
               <Link to="/signup">Signup</Link>
             </li>
-
             <li>
               <Link to="/login">Login</Link>
             </li>

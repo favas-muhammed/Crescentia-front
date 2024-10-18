@@ -5,17 +5,12 @@ import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
 import ProfilePage from "./pages/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
-import AllBooksPage from "./pages/AllBooksPage";
-import NewBookPage from "./pages/NewBookPage";
-import PostList from "./components/Posts/PostList";
-import CreatePost from "./components/Posts/CreatePost";
-import MessageList from "./components/Messages/MessageList";
-import CreateMessage from "./components/Messages/CreateMessage";
-import GroupList from "./components/Groups/GroupList";
-import CreateGroup from "./components/Groups/CreateGroup";
 import PostPage from "./pages/PostPage";
 import MessagesPage from "./pages/MessagesPage";
 import GroupsPage from "./pages/GroupsPage";
+import GroupDetailPage from "./pages/GroupDetailPage";
+import SearchPage from "./pages/SearchPage";
+
 function App() {
   return (
     <>
@@ -53,6 +48,22 @@ function App() {
           element={
             <PrivateRoute>
               <GroupsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/groups/:groupId"
+          element={
+            <PrivateRoute>
+              <GroupDetailPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <PrivateRoute>
+              <SearchPage />
             </PrivateRoute>
           }
         />

@@ -1,4 +1,3 @@
-// NotificationBell.jsx
 import React, { useContext } from "react";
 import { NotificationContext } from "../contexts/NotificationContext";
 
@@ -19,7 +18,6 @@ const NotificationBell = () => {
             </li>
           ))}
         </ul>
-        // Continuing from NotificationBell.jsx
       )}
     </div>
   );

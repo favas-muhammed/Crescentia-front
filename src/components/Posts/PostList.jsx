@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { fetchWithToken } from "../contexts/SessionContext";
+import React, { useState, useEffect, useContext } from "react";
+import PostItem from "./PostItem";
+import { SessionContext } from "../../contexts/SessionContext";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
+  const { fetchWithToken } = useContext(SessionContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -11,11 +13,10 @@ const PostList = () => {
         setPosts(fetchedPosts);
       } catch (error) {
         console.error("Error fetching posts:", error);
-        // Continuing from PostList.jsx
       }
     };
     fetchPosts();
-  }, []);
+  }, [fetchWithToken]);
 
   return (
     <div>

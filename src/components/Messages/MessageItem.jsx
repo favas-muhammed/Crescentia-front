@@ -1,4 +1,3 @@
-// MessageItem.jsx
 import React from "react";
 
 const MessageItem = ({ message }) => {
@@ -7,7 +6,7 @@ const MessageItem = ({ message }) => {
       <p>From: {message.sender.username}</p>
       <p>To: {message.receiver.username}</p>
       <p>{message.content}</p>
-      <p>{message.isRead ? "Read" : "Unread"}</p>
+      <p>{message.createdAt}</p>
     </div>
   );
 };
