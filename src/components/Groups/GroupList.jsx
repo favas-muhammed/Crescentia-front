@@ -1,8 +1,9 @@
 // GroupList.jsx
-import React, { useState, useEffect } from "react";
-import { fetchWithToken } from "../contexts/SessionContext";
+import React, { useState, useEffect, useContext } from "react";
+import { SessionContext } from "../../contexts/SessionContext";
 
 const GroupList = () => {
+  const { fetchWithToken } = useContext(SessionContext);
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {

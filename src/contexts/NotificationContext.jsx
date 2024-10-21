@@ -18,8 +18,8 @@ export const NotificationProvider = ({ children }) => {
     };
     fetchNotifications();
     // Set up a timer to fetch notifications periodically
-    const timer = setInterval(fetchNotifications, 60000); // Fetch every minute
-    return () => clearInterval(timer);
+    /*const timer = setInterval(fetchNotifications, 60000); // Fetch every minute
+    return () => clearInterval(timer);*/
   }, [fetchWithToken]);
 
   const markAsRead = async (notificationId) => {

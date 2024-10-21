@@ -1,9 +1,11 @@
 // Continuing from CreateMessage.jsx
 
-import React, { useState } from "react";
-import { fetchWithToken } from "../contexts/SessionContext";
+import React, { useContext, useState } from "react";
+import { SessionContext } from "../../contexts/SessionContext";
 
 const CreateMessage = () => {
+  const { fetchWithToken } = useContext(SessionContext);
+
   const [receiver, setReceiver] = useState("");
   const [content, setContent] = useState("");
 

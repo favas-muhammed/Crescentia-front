@@ -26,9 +26,9 @@ const Navbar = () => {
             <li>
               <Link to="/profile">Profile</Link>
             </li>
-            <li>
+            {/* <li>
               <NotificationBell />
-            </li>
+            </li>*/}
             <li>
               <button type="button" onClick={logout}>
                 Logout

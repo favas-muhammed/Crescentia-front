@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { fetchWithToken } from "../contexts/SessionContext";
+import React, { useContext, useState } from "react";
+import { SessionContext } from "../../contexts/SessionContext";
 
 const CreateGroup = () => {
   const [name, setName] = useState("");
+
+  const { fetchWithToken } = useContext(SessionContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

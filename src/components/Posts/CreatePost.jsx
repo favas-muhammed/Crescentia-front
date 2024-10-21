@@ -1,8 +1,10 @@
 // CreatePost.jsx
-import React, { useState } from "react";
-import { fetchWithToken } from "../contexts/SessionContext";
+import React, { useContext, useState } from "react";
+import { SessionContext } from "../../contexts/SessionContext";
 
 const CreatePost = () => {
+  const { fetchWithToken } = useContext(SessionContext);
+
   const [content, setContent] = useState("");
   const [mediaType, setMediaType] = useState("text");
   const [mediaUrl, setMediaUrl] = useState("");
