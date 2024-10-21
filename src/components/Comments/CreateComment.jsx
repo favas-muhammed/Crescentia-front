@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import messageService from "../../services/message.service";
-
-const CreateMessage = ({ conversationId }) => {
+import commentService from "../../services/comment.service";
+const CreateComment = ({ postId }) => {
   const [content, setContent] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await messageService.sendMessage(conversationId, { content });
+    await commentService.createComment(postId, { content });
     setContent("");
-    // You might want to update the message list after sending
+    // You might want to update the comment list after creation
   };
 
   return (
@@ -17,11 +16,11 @@ const CreateMessage = ({ conversationId }) => {
         type="text"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Type a message..."
+        placeholder="Write a comment..."
       />
-      <button type="submit">Send</button>
+      <button type="submit">Comment</button>
     </form>
   );
 };
 
-export default CreateMessage;
+export default CreateComment;

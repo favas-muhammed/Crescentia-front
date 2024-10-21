@@ -1,28 +1,24 @@
-import React, { useState, useEffect, useContext } from "react";
-import { SessionContext } from "../../contexts/SessionContext";
-import MessageItem from "./MessageItem";
+import React, { useState, useEffect } from "react";
+import messageService from "../../services/message.service";
 
-const MessageList = () => {
+const MessageList = ({ conversationId }) => {
   const [messages, setMessages] = useState([]);
-  const { fetchWithToken } = useContext(SessionContext);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      try {
-        const fetchedMessages = await fetchWithToken("/api/messages");
-        setMessages(fetchedMessages);
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-      }
+      const fetchedMessages = await messageService.getMessages(conversationId);
+      setMessages(fetchedMessages);
     };
     fetchMessages();
-  }, [fetchWithToken]);
+  }, [conversationId]);
 
   return (
     <div>
-      <h2>Messages</h2>
       {messages.map((message) => (
-        <MessageItem key={message._id} message={message} />
+        <div key={message.id}>
+          <strong>{message.sender.name}: </strong>
+          {message.content}
+        </div>
       ))}
     </div>
   );

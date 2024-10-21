@@ -1,43 +1,30 @@
+// src/components/Auth/SignupForm.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import authService from "../../services/auth.service";
 
-const Signup = () => {
-  const [username, setUsername] = useState("");
+const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email.endsWith("@thebrandcollector.com")) {
+      setError("Only @thebrandcollector.com email addresses are allowed.");
+      return;
+    }
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/signup`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, email, password }),
-        }
-      );
-      if (response.ok) {
-        navigate("/login");
-      } else {
-        // Handle signup error
-        console.error("Signup failed");
-      }
-    } catch (error) {
-      console.error("Error during signup:", error);
+      await authService.signup(email, password);
+      navigate("/login");
+    } catch (err) {
+      setError(err.response.data.message);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-        required
-      />
       <input
         type="email"
         value={email}
@@ -53,8 +40,9 @@ const Signup = () => {
         required
       />
       <button type="submit">Sign Up</button>
+      {error && <p>{error}</p>}
     </form>
   );
 };
 
-export default Signup;
+export default SignupForm;

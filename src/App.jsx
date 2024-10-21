@@ -1,23 +1,24 @@
-import { Route, Routes } from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import SignupPage from "./components/Auth/Signup";
-import LoginPage from "./components/Auth/Login";
-import Navbar from "./components/Navbar";
+import Login from "./components/Auth/Login";
+import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
-import PrivateRoute from "./components/PrivateRoute";
 import PostPage from "./pages/PostPage";
-import MessagesPage from "./pages/MessagesPage";
 import GroupsPage from "./pages/GroupsPage";
-import GroupDetailPage from "./components/Groups/GroupDetail";
-import SearchPage from "./components/SearchPage";
+import GroupDetailPage from "./pages/GroupDetailPage";
+import MessagesPage from "./pages/MessagesPage";
+import Navigation from "./components/Navigation";
+import PrivateRoute from "./components/PrivateRoute";
+
 function App() {
   return (
-    <>
-      <Navbar />
+    <div className="App">
+      <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
         <Route
           path="/profile"
           element={
@@ -35,14 +36,6 @@ function App() {
           }
         />
         <Route
-          path="/messages"
-          element={
-            <PrivateRoute>
-              <MessagesPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
           path="/groups"
           element={
             <PrivateRoute>
@@ -51,7 +44,7 @@ function App() {
           }
         />
         <Route
-          path="/groups/:groupId"
+          path="/groups/:id"
           element={
             <PrivateRoute>
               <GroupDetailPage />
@@ -59,16 +52,15 @@ function App() {
           }
         />
         <Route
-          path="/search"
+          path="/messages"
           element={
             <PrivateRoute>
-              <SearchPage />
+              <MessagesPage />
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<h1>404 Page</h1>} />
       </Routes>
-    </>
+    </div>
   );
 }
 

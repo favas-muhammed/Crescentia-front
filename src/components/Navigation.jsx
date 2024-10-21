@@ -1,9 +1,8 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SessionContext } from "../contexts/SessionContext";
-import NotificationBell from "./NotificationBell";
 
-const Navbar = () => {
+const Navigation = () => {
   const { isAuthenticated, logout } = useContext(SessionContext);
 
   return (
@@ -15,33 +14,28 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             <li>
-              <Link to="/posts">Posts</Link>
+              <Link to="/profile">Profile</Link>
             </li>
             <li>
-              <Link to="/messages">Messages</Link>
+              <Link to="/posts">Posts</Link>
             </li>
             <li>
               <Link to="/groups">Groups</Link>
             </li>
             <li>
-              <Link to="/profile">Profile</Link>
+              <Link to="/messages">Messages</Link>
             </li>
-            {/* <li>
-              <NotificationBell />
-            </li>*/}
             <li>
-              <button type="button" onClick={logout}>
-                Logout
-              </button>
+              <button onClick={logout}>Logout</button>
             </li>
           </>
         ) : (
           <>
             <li>
-              <Link to="/signup">Signup</Link>
+              <Link to="/login">Login</Link>
             </li>
             <li>
-              <Link to="/login">Login</Link>
+              <Link to="/signup">Sign Up</Link>
             </li>
           </>
         )}
@@ -50,4 +44,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navigation;

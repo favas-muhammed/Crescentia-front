@@ -1,28 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import PostItem from "./PostItem";
-import { SessionContext } from "../../contexts/SessionContext";
+import postService from "../../services/post.service";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
-  const { fetchWithToken } = useContext(SessionContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const fetchedPosts = await fetchWithToken("/api/posts");
-        setPosts(fetchedPosts);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
+      const fetchedPosts = await postService.getPosts();
+      setPosts(fetchedPosts);
     };
     fetchPosts();
-  }, [fetchWithToken]);
+  }, []);
 
   return (
     <div>
-      <h2>Posts</h2>
       {posts.map((post) => (
-        <PostItem key={post._id} post={post} />
+        <PostItem key={post.id} post={post} />
       ))}
     </div>
   );
