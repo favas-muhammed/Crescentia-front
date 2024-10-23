@@ -1,33 +1,52 @@
+// src/components/Post/CreatePost.jsx
 import React, { useState } from "react";
-import postService from "../../services/post.service";
+import { useSession } from "../../contexts/SessionContext";
 
-const CreatePost = () => {
-  const [caption, setCaption] = useState("");
+const CreatePost = ({ onPostCreated }) => {
+  const [content, setContent] = useState("");
   const [media, setMedia] = useState(null);
+  const { token } = useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
-    formData.append("caption", caption);
+    formData.append("content", content);
     if (media) {
       formData.append("media", media);
     }
-    await postService.createPost(formData);
-    setCaption("");
-    setMedia(null);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        setContent("");
+        setMedia(null);
+        onPostCreated();
+      }
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="create-post-form">
       <textarea
-        value={caption}
-        onChange={(e) => setCaption(e.target.value)}
-        placeholder="Write your caption..."
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder="What's on your mind?"
+        required
       />
       <input
         type="file"
-        accept="image/*,video/*"
         onChange={(e) => setMedia(e.target.files[0])}
+        accept="image/*,video/*"
       />
       <button type="submit">Post</button>
     </form>

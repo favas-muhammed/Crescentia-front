@@ -1,55 +1,52 @@
-import React, { useState, useContext } from "react";
-import { SessionContext } from "../../contexts/SessionContext";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSession } from "../../contexts/SessionContext";
+import { authService } from "../../services/auth.service";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken } = useContext(SessionContext);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setToken } = useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        }
-      );
-      if (response.ok) {
-        const { token } = await response.json();
-        setToken(token);
-        navigate("/");
-      } else {
-        // Handle login error
-        console.error("Login failed");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
+      const data = await authService.login(email, password);
+      setToken(data.token);
+      navigate("/");
+    } catch (err) {
+      setError("Invalid credentials");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="auth-form">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {error && <div className="error-message">{error}</div>}
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 

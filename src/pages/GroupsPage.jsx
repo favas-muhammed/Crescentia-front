@@ -1,14 +1,10 @@
-// GroupsPage.jsx
 import React from "react";
-import GroupList from "../components/Groups/GroupList";
-import CreateGroup from "../components/Groups/CreateGroup";
 
 const GroupsPage = () => {
   return (
-    <div>
+    <div className="groups-page">
       <h1>Groups</h1>
-      <CreateGroup />
-      <GroupList />
+      {/* Add groups content here */}
     </div>
   );
 };

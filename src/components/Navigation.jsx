@@ -1,45 +1,37 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { SessionContext } from "../contexts/SessionContext";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSession } from "../contexts/SessionContext";
 
 const Navigation = () => {
-  const { isAuthenticated, logout } = useContext(SessionContext);
+  const { isAuthenticated, logout } = useSession();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
+    <nav className="main-nav">
+      <div className="nav-brand">
+        <Link to="/">Crescentia</Link>
+      </div>
+      <div className="nav-links">
         {isAuthenticated ? (
           <>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/posts">Posts</Link>
-            </li>
-            <li>
-              <Link to="/groups">Groups</Link>
-            </li>
-            <li>
-              <Link to="/messages">Messages</Link>
-            </li>
-            <li>
-              <button onClick={logout}>Logout</button>
-            </li>
+            <Link to="/profile">Profile</Link>
+            <Link to="/posts">Posts</Link>
+            <Link to="/groups">Groups</Link>
+            <Link to="/messages">Messages</Link>
+            <button onClick={handleLogout}>Logout</button>
           </>
         ) : (
           <>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Sign Up</Link>
-            </li>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
           </>
         )}
-      </ul>
+      </div>
     </nav>
   );
 };

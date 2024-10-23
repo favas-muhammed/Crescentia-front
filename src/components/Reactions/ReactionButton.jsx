@@ -1,19 +1,16 @@
-import React from "react";
-import reactionService from "../../services/reaction.service";
-
-const ReactionButton = ({ postId, reactionType, count, userReacted }) => {
-  const handleReaction = async () => {
-    if (userReacted) {
-      await reactionService.removeReaction(postId, reactionType);
-    } else {
-      await reactionService.addReaction(postId, reactionType);
+const ReactionButton = ({ postId, type, count, userReacted }) => {
+  const handleReact = async () => {
+    try {
+      await reactionService.toggleReaction(postId, type);
+      // Refresh reactions count
+    } catch (err) {
+      console.error(err);
     }
-    // You might want to update the reaction count after adding/removing
   };
 
   return (
-    <button onClick={handleReaction}>
-      {reactionType} ({count})
+    <button onClick={handleReact}>
+      {type === "heart" ? "❤️" : "🙌"} ({count})
     </button>
   );
 };

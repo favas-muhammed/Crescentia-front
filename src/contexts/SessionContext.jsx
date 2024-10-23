@@ -1,81 +1,67 @@
-import { createContext, useEffect, useState } from 'react'
+import React, { createContext, useState, useContext, useEffect } from "react";
 
-export const SessionContext = createContext()
+const SessionContext = createContext();
 
-const SessionContextProvider = ({ children }) => {
-  const [token, setToken] = useState()
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isVerifying, setIsVerifying] = useState(true)
+export const useSession = () => useContext(SessionContext);
+
+export const SessionContextProvider = ({ children }) => {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     if (token) {
-      setIsAuthenticated(true)
-      localStorage.setItem('authToken', token)
+      localStorage.setItem("token", token);
+      setIsAuthenticated(true);
+      // Fetch user data
+      fetchUserData();
     } else {
-      setIsAuthenticated(false)
+      localStorage.removeItem("token");
+      setIsAuthenticated(false);
+      setUser(null);
     }
-  }, [token])
+  }, [token]);
 
-  const verifyToken = async currentToken => {
+  const fetchUserData = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/verify`, {
-        headers: {
-          Authorization: `Bearer ${currentToken}`,
-        },
-      })
-      if (response.status === 200) {
-        setToken(currentToken)
-        setIsAuthenticated(true)
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/verify`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
       } else {
-        localStorage.removeItem('authToken')
+        setToken(null);
       }
-      setIsVerifying(false)
     } catch (error) {
-      console.log(error)
-      localStorage.removeItem('authToken')
-      setIsVerifying(false)
+      console.error("Error fetching user data:", error);
+      setToken(null);
     }
-  }
-
-  useEffect(() => {
-    const localToken = localStorage.getItem('authToken')
-    if (localToken) {
-      verifyToken(localToken)
-    } else {
-      setIsVerifying(false)
-    }
-  }, [])
+  };
 
   const logout = () => {
-    setToken()
-    localStorage.removeItem('authToken')
-  }
-
-  const fetchWithToken = async (endpoint, method = 'GET', payload) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
-        method,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      })
-      if (response.ok) {
-        return response.json()
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    setToken(null);
+  };
 
   return (
     <SessionContext.Provider
-      value={{ setToken, setIsAuthenticated, isAuthenticated, logout, isVerifying, fetchWithToken }}
+      value={{
+        token,
+        setToken,
+        user,
+        setUser,
+        isAuthenticated,
+        logout,
+      }}
     >
       {children}
     </SessionContext.Provider>
-  )
-}
+  );
+};
 
-export default SessionContextProvider
+export default SessionContext;

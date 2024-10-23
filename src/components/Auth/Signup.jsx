@@ -1,4 +1,3 @@
-// src/components/Auth/SignupForm.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
@@ -45,4 +44,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default SignupPage;

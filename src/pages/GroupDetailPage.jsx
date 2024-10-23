@@ -1,11 +1,12 @@
 import React from "react";
-import GroupDetail from "../components/Groups/GroupDetail";
+import { useParams } from "react-router-dom";
 
 const GroupDetailPage = () => {
+  const { id } = useParams();
   return (
-    <div>
+    <div className="group-detail-page">
       <h1>Group Details</h1>
-      <GroupDetail />
+      <p>Group ID: {id}</p>
     </div>
   );
 };
