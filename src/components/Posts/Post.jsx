@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactionButton from "../Reactions/ReactionButton";
 
 const Post = ({ post, canEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
+
+  useEffect(() => {
+    console.log("Post data:", post);
+  }, [post]);
 
   const handleEdit = async () => {
     try {
@@ -77,7 +81,7 @@ const Post = ({ post, canEdit }) => {
             </div>
           </div>
         ) : (
-          <p>{post.content}</p>
+          <p className="post-text">{post.content || "No content available"}</p>
         )}
 
         {post.media && (
@@ -107,8 +111,8 @@ const Post = ({ post, canEdit }) => {
 
         {canEdit && (
           <div className="post-edit-actions">
-            <button onClick={() => setIsEditing(true)}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
+            <button onClick={() => setIsEditing(true)}>✎</button>
+            <button onClick={handleDelete}>🗑️</button>
           </div>
         )}
       </div>

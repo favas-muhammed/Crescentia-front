@@ -29,7 +29,7 @@ button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
-  background: #007bff;
+  background: black;
   color: white;
   cursor: pointer;
 }
@@ -215,4 +215,66 @@ button:hover {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.post {
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #ffffff;
+}
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.post-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+.post-meta {
+  display: flex;
+  flex-direction: column;
+}
+.post-author {
+  font-weight: bold;
+}
+.post-date {
+  font-size: 0.8em;
+  color: #888;
+}
+.post-content {
+  margin-bottom: 12px;
+}
+.post-text {
+  margin: 10px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.post-media img,
+.post-media video {
+  max-width: 100%;
+  border-radius: 8px;
+}
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.post-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+.edit-post textarea {
+  width: 100%;
+  min-height: 100px;
+  margin-bottom: 8px;
+}
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }
