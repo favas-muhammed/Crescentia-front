@@ -1,4 +1,3 @@
-// src/services/auth.service.js
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -44,4 +43,4 @@ const authService = {
   },
 };
 
-export default auth.service;
+export default authService;

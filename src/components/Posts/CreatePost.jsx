@@ -1,4 +1,3 @@
-// src/components/Post/CreatePost.jsx
 import React, { useState } from "react";
 import { useSession } from "../../contexts/SessionContext";
 
@@ -9,6 +8,7 @@ const CreatePost = ({ onPostCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(media);
 
     const formData = new FormData();
     formData.append("content", content);
@@ -17,13 +17,16 @@ const CreatePost = ({ onPostCreated }) => {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/posts`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         setContent("");
@@ -43,6 +46,7 @@ const CreatePost = ({ onPostCreated }) => {
         placeholder="What's on your mind?"
         required
       />
+
       <input
         type="file"
         onChange={(e) => setMedia(e.target.files[0])}

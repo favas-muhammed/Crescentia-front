@@ -1,4 +1,3 @@
-// src/components/Post/Post.jsx
 import React, { useState } from "react";
 import ReactionButton from "../Reactions/ReactionButton";
 

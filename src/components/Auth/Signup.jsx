@@ -15,7 +15,7 @@ const SignupForm = () => {
       return;
     }
     try {
-      await authService.signup(email, password);
+      await authService.signup({ email, password });
       navigate("/login");
     } catch (err) {
       setError(err.response.data.message);
@@ -23,25 +23,34 @@ const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Sign Up</button>
-      {error && <p>{error}</p>}
-    </form>
+    <div className="auth-form">
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
+        </div>
+        {error && <div className="error-message">{error}</div>}
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
   );
 };
 
-export default SignupPage;
+export default SignupForm;

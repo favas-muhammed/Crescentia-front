@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../../contexts/SessionContext";
-import { authService } from "../../services/auth.service";
+import authService from "../../services/auth.service";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await authService.login(email, password);
+      const data = await authService.login({ email, password });
       setToken(data.token);
       navigate("/");
     } catch (err) {

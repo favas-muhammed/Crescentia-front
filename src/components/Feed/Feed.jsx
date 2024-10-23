@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Post from "../Posts/Post";
+import CreatePost from "../Posts/CreatePost";
 import { useSession } from "../../contexts/SessionContext";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useSession();
+  const { user, token } = useSession();
 
   useEffect(() => {
     fetchPosts();
@@ -13,7 +14,14 @@ const Feed = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/posts`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
