@@ -52,7 +52,7 @@ const Post = ({ post, canEdit, onDelete }) => {
     <div className="post">
       <div className="post-header">
         <img
-          src={post.author.avatar || "/default-avatar.png"}
+          src="src/user.jpg"
           alt={post.author.email}
           className="post-avatar"
         />
