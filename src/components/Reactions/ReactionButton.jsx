@@ -1,3 +1,5 @@
+import reactionService from "../../services/reaction.service";
+
 const ReactionButton = ({ postId, type, count, userReacted }) => {
   const handleReact = async () => {
     try {

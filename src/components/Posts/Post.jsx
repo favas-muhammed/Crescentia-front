@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactionButton from "../Reactions/ReactionButton";
 
-const Post = ({ post, canEdit }) => {
+const Post = ({ post, canEdit, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
 
@@ -32,23 +32,19 @@ const Post = ({ post, canEdit }) => {
     }
   };
 
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/posts/${post._id}`,
-          {
-            method: "DELETE",
-            // Add your authorization header here if required
-          }
-        );
-
-        if (response.ok) {
-          // You might want to refresh the posts here
-        }
-      } catch (error) {
-        console.error("Error deleting post:", error);
+  const handleDelete = async (postId) => {
+    try {
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        // Remove the post from the state
+        setPosts(posts.filter((post) => post.id !== postId));
+      } else {
+        console.error("Failed to delete the post");
       }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -112,7 +108,7 @@ const Post = ({ post, canEdit }) => {
         {canEdit && (
           <div className="post-edit-actions">
             <button onClick={() => setIsEditing(true)}>✎</button>
-            <button onClick={handleDelete}>🗑️</button>
+            <button onClick={() => handleDelete(postId)}>🗑️</button>
           </div>
         )}
       </div>
