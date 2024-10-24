@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ReactionButton from "../Reactions/ReactionButton";
 import SessionContext from "../../contexts/SessionContext";
 
-const Post = ({ post, canEdit, onDelete }) => {
+const Post = ({ post, canEdit, onDelete, onUpdate }) => {
   const { token } = useContext(SessionContext);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -29,6 +29,7 @@ const Post = ({ post, canEdit, onDelete }) => {
       if (response.ok) {
         setIsEditing(false);
         // fetch thw data(reload)
+        onUpdate();
       }
     } catch (error) {
       console.error("Error updating post:", error);
@@ -48,7 +49,8 @@ const Post = ({ post, canEdit, onDelete }) => {
       );
 
       if (response.ok) {
-        setPosts(posts.filter((post) => post.id !== postId)); // remove this and fetch all the post
+        onDelete(post._id);
+        onUpdate();
       } else {
         console.error("Failed to delete the post");
       }

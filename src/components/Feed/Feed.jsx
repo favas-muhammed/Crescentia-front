@@ -33,6 +33,14 @@ const Feed = () => {
     }
   };
 
+  const handleUpdate = () => {
+    fetchPosts();
+  };
+
+  const handleDelete = (postId) => {
+    setPosts(posts.filter((post) => post._id !== postId));
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -48,6 +56,8 @@ const Feed = () => {
             key={post._id}
             post={post}
             canEdit={post.author._id === user?._id}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
           />
         ))}
       </div>
