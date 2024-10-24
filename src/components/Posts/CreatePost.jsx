@@ -8,13 +8,13 @@ const CreatePost = ({ onPostCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(media);
+    console.log(content);
 
-    const formData = new FormData();
+    /* const formData = new FormData();
     formData.append("content", content);
     if (media) {
       formData.append("media", media);
-    }
+    } */
 
     try {
       const response = await fetch(
@@ -23,8 +23,9 @@ const CreatePost = ({ onPostCreated }) => {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-          body: formData,
+          body: JSON.stringify({ content }),
         }
       );
 
