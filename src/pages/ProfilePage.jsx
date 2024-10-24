@@ -30,11 +30,7 @@ const ProfilePage = () => {
     <div className="profile-page">
       <h1>Profile</h1>
       <div className="profile-info">
-        <img
-          src={user?.avatar || "/default-avatar.png"}
-          alt="Profile"
-          className="profile-avatar"
-        />
+        <img src="src/avatar.jpg" alt="Profile" className="profile-avatar" />
         <h2>{user?.email}</h2>
       </div>
       <div className="user-posts">

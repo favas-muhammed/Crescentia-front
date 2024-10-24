@@ -10,7 +10,6 @@ import GroupDetailPage from "./pages/GroupDetailPage";
 import MessagesPage from "./pages/MessagesPage";
 import Navigation from "./components/Navigation";
 import PrivateRoute from "./components/PrivateRoute";
-import SessionProvider from "./contexts/SessionContext";
 
 function App() {
   return (
