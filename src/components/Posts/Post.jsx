@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactionButton from "../Reactions/ReactionButton";
+import SessionContext from "../../contexts/SessionContext";
 
 const Post = ({ post, canEdit, onDelete }) => {
+  const { token } = useContext(SessionContext);
+
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
 
@@ -12,12 +15,12 @@ const Post = ({ post, canEdit, onDelete }) => {
   const handleEdit = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/posts/${post._id}`,
+        `${import.meta.env.VITE_API_URL}/api/posts/${post._id}`,
         {
           method: "PUT",
           headers: {
+            authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-            // Add your authorization header here if required
           },
           body: JSON.stringify({ content: editedContent }),
         }
@@ -25,7 +28,7 @@ const Post = ({ post, canEdit, onDelete }) => {
 
       if (response.ok) {
         setIsEditing(false);
-        // You might want to refresh the posts here
+        // fetch thw data(reload)
       }
     } catch (error) {
       console.error("Error updating post:", error);
@@ -34,12 +37,18 @@ const Post = ({ post, canEdit, onDelete }) => {
 
   const handleDelete = async (postId) => {
     try {
-      const response = await fetch(`/api/posts/${postId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/posts/${postId}`,
+        {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (response.ok) {
-        // Remove the post from the state
-        setPosts(posts.filter((post) => post.id !== postId));
+        setPosts(posts.filter((post) => post.id !== postId)); // remove this and fetch all the post
       } else {
         console.error("Failed to delete the post");
       }
@@ -108,7 +117,7 @@ const Post = ({ post, canEdit, onDelete }) => {
         {canEdit && (
           <div className="post-edit-actions">
             <button onClick={() => setIsEditing(true)}>✎</button>
-            <button onClick={() => handleDelete(postId)}>🗑️</button>
+            <button onClick={() => handleDelete(post._id)}>🗑️</button>
           </div>
         )}
       </div>
