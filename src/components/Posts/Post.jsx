@@ -1,29 +1,37 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReactionButton from "../Reactions/ReactionButton";
 import SessionContext from "../../contexts/SessionContext";
-import CommentButton from "../Comments/CommentButton";
 import CommentSection from "../Comments/CommentSection";
 
 const Post = ({ post, canEdit, onDelete, onUpdate }) => {
   const { token } = useContext(SessionContext);
-
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const [comments, setComments] = useState([]);
   const [showCommentSection, setShowCommentSection] = useState(false);
 
   useEffect(() => {
-    console.log("Post data:", post);
-    // Fetch comments for the post when it mounts
-    const fetchComments = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/posts/${post._id}/comments`
-      );
-      const data = await response.json();
-      setComments(data);
-    };
     fetchComments();
   }, [post]);
+
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/posts/${post._id}/comments`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data);
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
   const handleEdit = async () => {
     try {
@@ -78,7 +86,7 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
         {
           method: "POST",
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ content: newComment }),
@@ -151,10 +159,9 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
           userReacted={post.userReactions?.includes("clap")}
         />
 
-        <CommentButton
-          postId={post._id}
-          handleCommentClick={() => setShowCommentSection(true)}
-        />
+        <button onClick={() => setShowCommentSection(!showCommentSection)}>
+          {showCommentSection ? "Hide Comments" : "Show Comments"}
+        </button>
 
         {canEdit && (
           <div className="post-edit-actions">

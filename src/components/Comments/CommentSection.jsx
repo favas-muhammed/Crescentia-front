@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const CommentSection = ({ postId, comments, handleAddComment }) => {
   const [newComment, setNewComment] = useState("");
-  const [showComments, setShowComments] = useState(false);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -11,26 +10,23 @@ const CommentSection = ({ postId, comments, handleAddComment }) => {
   };
 
   return (
-    <div>
-      {showComments ? (
-        <div>
-          <h4>Comments</h4>
-          {comments.map((comment, index) => (
-            <p key={index}>{comment.content}</p> // Adjust this according to your comment structure
-          ))}
-          <form onSubmit={handleCommentSubmit}>
-            <input
-              type="text"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Add a comment"
-            />
-            <button type="submit">Post</button>
-          </form>
+    <div className="comment-section">
+      <h4>Comments</h4>
+      {comments.map((comment, index) => (
+        <div key={comment._id || index} className="comment">
+          <p>{comment.content}</p>
+          <small>{comment.author?.email || "Unknown"}</small>
         </div>
-      ) : (
-        <button onClick={() => setShowComments(true)}>Show Comments</button>
-      )}
+      ))}
+      <form onSubmit={handleCommentSubmit}>
+        <input
+          type="text"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Add a comment"
+        />
+        <button type="submit">Post Comment</button>
+      </form>
     </div>
   );
 };
