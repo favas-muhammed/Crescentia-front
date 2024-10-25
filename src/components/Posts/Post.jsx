@@ -107,11 +107,13 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
       <div className="post-header">
         <img
           src="src/user.jpg"
-          alt={post.author.email}
+          alt={post.author?.email || "Unknown User"}
           className="post-avatar"
         />
         <div className="post-meta">
-          <div className="post-author">{post.author.email}</div>
+          <div className="post-author">
+            {post.author?.email || "Unknown User"}
+          </div>
           <div className="post-date">
             {new Date(post.createdAt).toLocaleDateString()}
           </div>

@@ -55,7 +55,7 @@ const Feed = () => {
           <Post
             key={post._id}
             post={post}
-            canEdit={post.author._id === user?._id}
+            canEdit={post.author && post.author._id === user?._id}
             onDelete={handleDelete}
             onUpdate={handleUpdate}
           />
