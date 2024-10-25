@@ -151,11 +151,11 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
   return (
     <div className="post">
       <div className="post-header">
-        {/*}  <img
+        <img
           src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png"
           alt={post.author?.email || "Unknown User"}
           className="post-avatar"
-        />*/}
+        />
         <div className="post-meta">
           <div className="post-author">
             {post.author?.email || "Unknown User"}

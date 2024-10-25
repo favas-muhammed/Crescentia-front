@@ -30,11 +30,11 @@ const ProfilePage = () => {
     <div className="profile-page">
       <h1>Profile</h1>
       <div className="profile-info">
-        {/* <img
+        <img
           src="https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg"
           alt="Profile"
           className="profile-avatar"
-        />*/}
+        />
         <h2>{user?.email}</h2>
       </div>
       <div className="user-posts">
