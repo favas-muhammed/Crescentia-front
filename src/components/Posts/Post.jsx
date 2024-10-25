@@ -152,7 +152,7 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
     <div className="post">
       <div className="post-header">
         <img
-          src="src/user.jpg"
+          src="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png"
           alt={post.author?.email || "Unknown User"}
           className="post-avatar"
         />
