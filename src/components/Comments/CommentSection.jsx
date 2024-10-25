@@ -6,6 +6,7 @@ const CommentSection = ({
   comments,
   handleAddComment,
   handleUpdateComment,
+  handleDeleteComment,
   token,
 }) => {
   const [newComment, setNewComment] = useState("");
@@ -13,10 +14,11 @@ const CommentSection = ({
   const [editedContent, setEditedContent] = useState("");
   const { user } = useContext(SessionContext);
 
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    handleAddComment(newComment);
+    const addedComment = await handleAddComment(newComment);
     setNewComment("");
+    // No need to update comments here as it will be handled by the parent component
   };
 
   const startEditing = (comment) => {
@@ -33,35 +35,6 @@ const CommentSection = ({
     await handleUpdateComment(commentId, editedContent);
     setEditingCommentId(null);
     setEditedContent("");
-  };
-
-  const handleDeleteComment = async (commentId) => {
-    try {
-      const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/api/posts/${postId}/comments/${commentId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        // Remove the comment from the state or refetch comments
-        //we'll assume you have a function to update the comments state
-        const updatedComments = comments.filter(
-          (comment) => comment._id !== commentId
-        );
-        updateComments(updatedComments);
-      } else {
-        console.error("Failed to delete comment");
-      }
-    } catch (error) {
-      console.error("Error deleting comment:", error);
-    }
   };
 
   return (

@@ -12,7 +12,10 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
 
   useEffect(() => {
     fetchComments();
-  }, [post]);
+    const intervalId = setInterval(fetchComments, 5000); // Fetch comments every 5 seconds
+
+    return () => clearInterval(intervalId); // Clean up the interval on component unmount
+  }, [post._id]);
 
   const fetchComments = async () => {
     try {
@@ -226,6 +229,7 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
           handleAddComment={handleAddComment}
           handleUpdateComment={handleUpdateComment}
           handleDeleteComment={handleDeleteComment}
+          token={token}
         />
       )}
     </div>
