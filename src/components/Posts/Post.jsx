@@ -4,7 +4,7 @@ import SessionContext from "../../contexts/SessionContext";
 import CommentSection from "../Comments/CommentSection";
 
 const Post = ({ post, canEdit, onDelete, onUpdate }) => {
-  const { token } = useContext(SessionContext);
+  const { token, user } = useContext(SessionContext);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const [comments, setComments] = useState([]);
@@ -102,6 +102,52 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
     }
   };
 
+  const handleUpdateComment = async (commentId, content) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/posts/${
+          post._id
+        }/comments/${commentId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+
+      if (response.ok) {
+        fetchComments();
+      }
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/posts/${
+          post._id
+        }/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        fetchComments();
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
   return (
     <div className="post">
       <div className="post-header">
@@ -178,6 +224,8 @@ const Post = ({ post, canEdit, onDelete, onUpdate }) => {
           postId={post._id}
           comments={comments}
           handleAddComment={handleAddComment}
+          handleUpdateComment={handleUpdateComment}
+          handleDeleteComment={handleDeleteComment}
         />
       )}
     </div>
